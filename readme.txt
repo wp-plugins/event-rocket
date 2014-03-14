@@ -4,7 +4,7 @@ Donate link: http://www.britishlegion.org.uk/get-involved/how-to-give
 Tags: events, shortcodes
 Requires at least: 3.8
 Tested up to: 3.8.1
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -20,17 +20,11 @@ This is an add-on that builds on top of the following wonderful plugins:
 
 So if you don't already have them installed it behooves you to do so now ;-)
 
-Right now it does two things. The first is allowing you to add widgets into pages or posts by using some simple
-shortcodes - here's an example showing how you can add the calendar widget within your copy for a page or post:
+What can this thing do? Right now, three things: deploy widgets as shortcodes, stick the main events page on the front
+page of your blog and allow precise editing of global coordinates for venues (for pinpoint accuracy when using Google
+Maps with venues).
 
-`[event_rocket_calendar]`
-
-Here is a slightly more complex example where we go the extra mile and specify that we want no more than 3 events to
-be listed below it:
-
-`[event_rocket_calendar count="3"]`
-
-It also lets you position the events calendar on the front page, making events front-of-house.
+Check out the FAQs and screenshots for more examples.
 
 == Installation ==
 
@@ -74,7 +68,7 @@ examples of acceptable ways to pass this information:
 * `[event_rocket_countdown id="789"]` this time the ID relates to the event
 * `[event_rocket_countdown event_id="789"]` again you can be more explicit if you wish
 
-= How can I make the countdown widget display seconds? *
+= How can I make the countdown widget display seconds? =
 
 You can let it know you want the seconds to be displayed by using the `show_seconds` attribute, something like this:
 
@@ -87,11 +81,19 @@ You can let it know you want the seconds to be displayed by using the `show_seco
 3. The actual output with the countdown widget embedded in the page. A great example as it also shows the sort of flaws
 in terms of styling that can occur theme to theme (ie, to make things super-seamless some CSS knowledge is going to be
 required).
+4. Editing venue coordinates
 
 == Changelog ==
+
+= 1.2 =
+
+* Nosecone improvements (front page support): change all references to the main event page so they "point" to the front
+page instead
+* Project GPS: allow adjustments to stored longitude/latitude data for venues
 
 = 1.1 =
 * Project Nosecone: put the main events page on the blog front page
 
 = 1.0 =
-* Initial release
+* Initial release (version numbering broadly intended to coincide with The Events Calendar releases).
+* Another change.
