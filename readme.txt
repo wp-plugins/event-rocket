@@ -104,5 +104,4 @@ page instead
 * Project Nosecone: put the main events page on the blog front page
 
 = 1.0 =
-* Initial release (version numbering broadly intended to coincide with The Events Calendar releases).
-* Another change.
+* Initial release
