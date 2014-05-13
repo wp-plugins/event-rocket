@@ -127,7 +127,7 @@ required).
 this!)
 
 = 1.4.1 =
-* Shortcode enhancements: `[event-embed]` added
+* Shortcode enhancements: `[event_embed]` added
 * Fix for potential issue with venue coordinate inputs in Chrome (thanks to Leah for noticing this!)
 
 = 1.4.0 =
