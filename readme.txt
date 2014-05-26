@@ -16,7 +16,7 @@ This is an add-on that builds on top of the following wonderful plugins:
 
 * [The Events Calendar](http://wordpress.org/plugins/the-events-calendar/) (required)
 * [Events Calendar PRO](http://tri.be/shop/wordpress-events-calendar-pro/) (optional but recommended)
-* Version 3.6 or greater for both of the above are suggested
+* Version 3.5 or greater for both of the above are suggested
 
 So if you don't already have them installed it behooves you to do so now. This plugin then adds the following power-ups:
 
