@@ -108,6 +108,10 @@ A new menu option will appear in the WordPress _tools_ menu labelled 'Cleanup ev
 appears when The Events Calendar is deactivated. You are strongly cautioned to make a full and complete backup before
 using this tool (and, of course, should make yourself aware of the steps needed to restore that backup).
 
+Cleanup make take quite a while (it really depends on how many events you have, etc) but every so often the screen will
+update while the job is in progress to let you see how much work still needs to be done. Recommendation is to grab a
+coffee and a newspaper or else simply leave it running in its own browser tab.
+
 == Screenshots ==
 
 1. Here you can see the new _Main Events Page_ entry in the Reading Settings screen.
