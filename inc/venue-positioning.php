@@ -1,8 +1,11 @@
 <?php
+defined( 'ABSPATH' ) or exit();
+
+
 /**
  * Adds support for direct manipulation of venue co-ordinates via the venue editor.
  */
-class EventRocketGPS
+class EventRocket_VenuePositioning
 {
 	/**
 	 * Venue post meta key for latitude.
@@ -23,6 +26,11 @@ class EventRocketGPS
 	 * Set up meta box and listeners for updates.
 	 */
 	public function __construct() {
+		$this->coords_metabox();
+	}
+
+	protected function coords_metabox() {
+		if ( ! apply_filters( 'eventrocket_venue_positioning_metabox', true ) ) return;
 		add_action( 'add_meta_boxes', array( $this, 'setup_metabox' ) );
 		add_action( 'init', array( $this, 'set_long_lat_keys' ) );
 		add_action( 'save_post', array( $this, 'save' ) );
@@ -45,21 +53,20 @@ class EventRocketGPS
 	 * Register the meta box.
 	 */
 	public function setup_metabox() {
-		$title = __( 'Coordinates', 'event-rocket');
+		$title = __( 'Coordinates', 'eventrocket');
 		$callback = array( $this, 'metabox' );
-		add_meta_box( 'event_rocket_gps_coords', $title, $callback, TribeEvents::VENUE_POST_TYPE, 'side' );
+		add_meta_box( 'eventrocket_venue_coords', $title, $callback, TribeEvents::VENUE_POST_TYPE, 'side' );
 	}
 
 	/**
 	 * Display the meta box.
 	 */
 	public function metabox( $post ) {
-		$template = apply_filters( 'event_rocket_metabox_template', EVENTROCKET_INC . '/gps-metabox.php' );
+		$template = apply_filters( 'eventrocket_metabox_template', EVENTROCKET_INC . '/templates/venue-positioning-metabox.php' );
 		$latitude = (float) get_post_meta( $post->ID, $this->lat_key, true );
 		$longitude = (float) get_post_meta( $post->ID, $this->lng_key, true );
 		include $template;
 	}
-
 
 	/**
 	 * Save our new long/lat data when submitted.
@@ -91,11 +98,11 @@ class EventRocketGPS
 	 * @return bool
 	 */
 	protected function safety( $id ) {
-		if ( ! isset( $_POST['eventrocket_gps'] ) ) return false;
-		if ( ! wp_verify_nonce( $_POST['eventrocket_gps'], 'event_rocket_save_long_lat' ) ) return false;
+		if ( ! isset( $_POST['eventrocket_venue_positioning'] ) ) return false;
+		if ( ! wp_verify_nonce( $_POST['eventrocket_venue_positioning'], 'event_rocket_save_long_lat' ) ) return false;
 		return current_user_can( 'edit_post', $id );
 	}
 }
 
 // Project GPS adds editing of long/lat coords for venues through the editor screen
-new EventRocketGPS;
+new EventRocket_VenuePositioning;
