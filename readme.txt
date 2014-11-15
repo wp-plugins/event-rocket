@@ -1,10 +1,10 @@
 === Event Rocket ===
 Contributors: barry.hughes, shane.pearlman
 Donate link: http://www.britishlegion.org.uk/get-involved/how-to-give
-Tags: events, shortcodes
-Requires at least: 3.9
+Tags: events, shortcodes, The Events Calendar
+Requires at least: 4.0
 Tested up to: 4.0
-Stable tag: 2.2
+Stable tag: 2.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -16,7 +16,7 @@ This is an add-on that builds on top of the following wonderful plugins:
 
 * [The Events Calendar](http://wordpress.org/plugins/the-events-calendar/) (required)
 * [Events Calendar PRO](http://tri.be/shop/wordpress-events-calendar-pro/) (optional but recommended)
-* Version 3.6 or greater for both of the above are suggested
+* Version 3.8 or greater for both of the above are suggested
 
 So if you don't already have them installed it behooves you to do so now. This plugin then adds the following power-ups:
 
@@ -24,7 +24,6 @@ So if you don't already have them installed it behooves you to do so now. This p
 * Precise editing of venue coordinates becomes possible for when street addresses just don't cut it
 * A 404 Laser has been added to help blast away pesky 404 issues
 * Event widgets can be deployed as shortcodes and you can embed events inline *anywhere* using the `[event_embed]` shortcode
-* You can access all event setting tabs directly from the admin menu
 * Clean up and remove events data if you decide you don't need it any longer
 
 Check out the FAQs and screenshots for more examples.
@@ -116,11 +115,15 @@ using this tool (and, of course, should make yourself aware of the steps needed 
 in terms of styling that can occur theme to theme (ie, to make things super-seamless some CSS knowledge is going to be
 required).
 4. Editing venue coordinates
-5. Enhanced admin toolbar options
-6. Cleanup tools menu entry (will not normally appear unless The Events Calendar has been deactivated)
-7. The actual cleanup screen
+5. Cleanup tools menu entry (will not normally appear unless The Events Calendar has been deactivated)
+6. The actual cleanup screen
 
 == Changelog ==
+
+= 2.3 =
+* Officially adds blog switching support: within multisite networks you can now display events from one blog on any other blog
+* Adds a venue embed shortcode that parallels the event embed shortcode
+* Removes the troublesome admin menu extension - should ease compatibility concerns in a variety of situations
 
 = 2.2 =
 * Restore venue positiong for single events (where only The Events Calendar and not Events Calendar PRO is activated)
