@@ -1,16 +1,21 @@
 === Event Rocket ===
-Contributors: barry.hughes, shane.pearlman
+Contributors: barry.hughes
 Donate link: http://www.britishlegion.org.uk/get-involved/how-to-give
-Tags: events, shortcodes, The Events Calendar
+Tags: events, shortcodes, The Events Calendar, duplicate
 Requires at least: 4.0
 Tested up to: 4.0
-Stable tag: 2.3
+Stable tag: 2.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 Experimental extension for The Events Calendar and Events Calendar PRO adding shortcodes, front page events and more.
 
 == Description ==
+
+> *Need help?*
+>
+> Please do take the time to read through our [FAQs](https://wordpress.org/plugins/event-rocket/faq/)
+> and [wiki](https://github.com/barryhughes/event-rocket/wiki) first of all!
 
 This is an add-on that builds on top of the following wonderful plugins:
 
@@ -20,11 +25,16 @@ This is an add-on that builds on top of the following wonderful plugins:
 
 So if you don't already have them installed it behooves you to do so now. This plugin then adds the following power-ups:
 
-* It lets you position the main events page on the front page of your blog
+* Event widgets can be deployed as shortcodes (PRO users can position the calendar widget right inside pages and posts,
+  for instance)
+* Embed events *anywhere* using the `[event_embed]` shortcode - includes powerful cross-blog capabilities and
+  support for special conditions - plus an API to let developers leverage this flexible system programmatically
+* Venues and organizers can also be embedded anywhere (new in 2.4)
+* Want to place the main events page on the front page of your blog? Event Rocket makes it easy to do so
 * Precise editing of venue coordinates becomes possible for when street addresses just don't cut it
 * A 404 Laser has been added to help blast away pesky 404 issues
-* Event widgets can be deployed as shortcodes and you can embed events inline *anywhere* using the `[event_embed]` shortcode
 * Clean up and remove events data if you decide you don't need it any longer
+* Duplicate events with a single click
 
 Check out the FAQs and screenshots for more examples.
 
@@ -119,6 +129,14 @@ required).
 6. The actual cleanup screen
 
 == Changelog ==
+
+= 2.4 =
+* Adds new `[organizer_embed]` shortcode
+* Resolves issue with the `"with_events"` parameter for venue and organizer embedding
+* Add reverse chronological ordering for `[event_embed]`
+* Special parameter added to make it easy to list current/ongoing events only, ie `[event_embed where="current"]`
+* Duplicate events - with the exception of recurring events - with a single click
+* Internal restructuring to make future enhancements easier
 
 = 2.3 =
 * Officially adds blog switching support: within multisite networks you can now display events from one blog on any other blog
