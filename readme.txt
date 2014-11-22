@@ -1,10 +1,10 @@
 === Event Rocket ===
 Contributors: barry.hughes
 Donate link: http://www.britishlegion.org.uk/get-involved/how-to-give
-Tags: events, shortcodes, The Events Calendar, duplicate
+Tags: events, shortcodes, The Events Calendar, duplicate, rsvp
 Requires at least: 4.0
 Tested up to: 4.0
-Stable tag: 2.4
+Stable tag: 2.5
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -12,10 +12,9 @@ Experimental extension for The Events Calendar and Events Calendar PRO adding sh
 
 == Description ==
 
-> *Need help?*
->
-> Please do take the time to read through our [FAQs](https://wordpress.org/plugins/event-rocket/faq/)
-> and [wiki](https://github.com/barryhughes/event-rocket/wiki) first of all!
+> *Need help?* Please do take the time to read through our [FAQs](https://wordpress.org/plugins/event-rocket/faq/),
+> [wiki](https://github.com/barryhughes/event-rocket/wiki) and
+> [previous forum replies](https://wordpress.org/support/plugin/event-rocket) before asking for help!
 
 This is an add-on that builds on top of the following wonderful plugins:
 
@@ -35,6 +34,7 @@ So if you don't already have them installed it behooves you to do so now. This p
 * A 404 Laser has been added to help blast away pesky 404 issues
 * Clean up and remove events data if you decide you don't need it any longer
 * Duplicate events with a single click
+* Simple RSVP system - allow users to indicate if they will or will not attend an event
 
 Check out the FAQs and screenshots for more examples.
 
@@ -117,6 +117,14 @@ A new menu option will appear in the WordPress _tools_ menu labelled 'Cleanup ev
 appears when The Events Calendar is deactivated. You are strongly cautioned to make a full and complete backup before
 using this tool (and, of course, should make yourself aware of the steps needed to restore that backup).
 
+= How do I enable RSVPs? =
+
+When Event Rocket is activated the event editor should contain a special new RSVP section. You must visit this
+and enable RSVPs for each applicable event.
+
+Once enabled an RSVP form will be displayed on single event pages: for best results you are encouraged to use the
+_restrict to logged in users_ option, otherwise you run the potential of dealing with spam responses and other issues.
+
 == Screenshots ==
 
 1. Here you can see the new _Main Events Page_ entry in the Reading Settings screen.
@@ -127,8 +135,12 @@ required).
 4. Editing venue coordinates
 5. Cleanup tools menu entry (will not normally appear unless The Events Calendar has been deactivated)
 6. The actual cleanup screen
+7. RSVP admin user interface - allow RSVPs on a per-event basis, restrict to logged in users only and view confirmation totals
 
 == Changelog ==
+
+= 2.5 =
+* Adds simple RSVP facilities
 
 = 2.4 =
 * Adds new `[organizer_embed]` shortcode
