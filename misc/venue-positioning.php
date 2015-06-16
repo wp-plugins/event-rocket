@@ -26,14 +26,17 @@ class EventRocket_VenuePositioning
 	 * Set up meta box and listeners for updates.
 	 */
 	public function __construct() {
-		$this->coords_metabox();
+		add_action( 'init', array( $this, 'coords_metabox' ), 5 );
 	}
 
-	protected function coords_metabox() {
+	public function coords_metabox() {
+		if ( class_exists( 'Tribe__Events__Pro__Main' ) ) return;
 		if ( ! apply_filters( 'eventrocket_venue_positioning_metabox', true ) ) return;
+
 		add_action( 'add_meta_boxes', array( $this, 'setup_metabox' ) );
 		add_action( 'init', array( $this, 'set_long_lat_keys' ) );
-		add_action( 'save_post', array( $this, 'save' ) );
+		add_action( 'tribe_events_venue_created', array( $this, 'save' ), 4 );
+		add_action( 'tribe_events_venue_updated', array( $this, 'save' ), 4 );
 		add_action( 'tribe_events_map_embedded', array( $this, 'use_coords' ), 10, 2 );
 	}
 
@@ -43,11 +46,6 @@ class EventRocket_VenuePositioning
 	public function set_long_lat_keys() {
 		$this->lat_key = '_VenueLat';
 		$this->lng_key = '_VenueLng';
-
-		if ( class_exists( 'TribeEventsGeoLoc') ) {
-			$this->lat_key = TribeEventsGeoLoc::LAT;
-			$this->lng_key = TribeEventsGeoLoc::LNG;
-		}
 	}
 
 	/**
@@ -56,7 +54,7 @@ class EventRocket_VenuePositioning
 	public function setup_metabox() {
 		$title = __( 'Coordinates', 'eventrocket');
 		$callback = array( $this, 'metabox' );
-		add_meta_box( 'eventrocket_venue_coords', $title, $callback, TribeEvents::VENUE_POST_TYPE, 'side' );
+		add_meta_box( 'eventrocket_venue_coords', $title, $callback, Tribe__Events__Main::VENUE_POST_TYPE, 'side' );
 	}
 
 	/**
@@ -114,7 +112,7 @@ class EventRocket_VenuePositioning
 	public function use_coords( $map_index, $venue_id ) {
 		// Sanity checks: we need a venue to work with and the correct version of TEC
 		if ( ! tribe_is_venue( $venue_id ) ) return;
-		if ( ! class_exists( 'TribeEvents_EmbeddedMaps' ) ) return;
+		if ( ! class_exists( 'Tribe__Events__Embedded_Maps' ) ) return;
 
 		// Try to load the coordinates - it's possible none will be set
 		$lat = get_post_meta( $venue_id, $this->lat_key, true );
@@ -122,7 +120,7 @@ class EventRocket_VenuePositioning
 		if ( ! $this->valid_coords( $lat, $lng ) ) return;
 
 		// If we have valid coordinates let's put them to work
-		$mapping = TribeEvents_EmbeddedMaps::instance();
+		$mapping = Tribe__Events__Embedded_Maps::instance();
 		$venue_data = $mapping->get_map_data( $map_index );
 		$venue_data['coords'] = array( $lat, $lng );
 		$mapping->update_map_data( $map_index, $venue_data );
@@ -132,6 +130,7 @@ class EventRocket_VenuePositioning
 	protected function valid_coords( $lat, $lng ) {
 		if ( ! is_numeric( $lat ) || $lat < -90  || $lat > 90 )  return false;
 		if ( ! is_numeric( $lng ) || $lng < -180 || $lng > 180 ) return false;
+		if ( 0 == $lat || 0 == $lng ) return false;
 		return true;
 	}
 }
