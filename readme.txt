@@ -8,7 +8,7 @@ Stable tag: 3.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Experimental extensions for The Events Calendar and Events Calendar PRO adding shortcodes, front page events and more to really help your event-based website blast off!
+Experimental extensions for The Events Calendar and Events Calendar PRO to help make your online calendar blast off!
 
 == Description ==
 
