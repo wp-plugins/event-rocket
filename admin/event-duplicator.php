@@ -32,7 +32,7 @@ class EventRocket_EventDuplicator
 		add_filter( 'post_row_actions', array( $this, 'add_duplicate_action'), 20, 2 );
 	}
 
-	public function	add_duplicate_action( $actions, $post) {
+	public function add_duplicate_action( $actions, $post) {
 		// Not a post? Bail (we aren't using a typehint since some plugins may pass in something a stdClass object etc)
 		if ( ! is_a( $post, 'WP_Post' ) )
 			return $actions;
@@ -46,10 +46,15 @@ class EventRocket_EventDuplicator
 			return $actions;
 
 		// Form the link
-		$url  = $this->duplication_link_url( $post->ID );
-		$text = __( 'Duplicate', 'eventrocket' );
-		$date = tribe_get_start_date( $post->ID, false, DateTime::ISO8601 );
-		$link = '<a href="'. $url . '" class="eventrocket_duplicate" data-date="' . $date . '">' . $text . '</a>';
+		$url   = $this->duplication_link_url( $post->ID );
+		$text  = __( 'Duplicate', 'eventrocket' );
+		$date  = tribe_get_start_date( $post->ID, false, DateTime::ISO8601 );
+		$title = $this->get_duplicate_post_title( $post );
+
+		$link = '<a href="'. $url . '" class="eventrocket_duplicate" '
+		      . 'data-date="' . $date . '" '
+		      . 'data-title="' . $title . '" '
+		      . '>' . $text . '</a>';
 
 		// Add to the list of actions
 		$actions['duplicate'] = $link;
@@ -82,8 +87,9 @@ class EventRocket_EventDuplicator
 	protected function cookie_statuses() {
 		// Check for status messages conveyed via cookies
 		if ( isset( $_COOKIE['eventrocket_dup_status'] ) && ! empty( $_COOKIE['eventrocket_dup_status'] ) ) {
-			foreach ( (array) @unserialize( $_COOKIE['eventrocket_dup_status'] ) as $code )
-				$this->status[] = absint( $code );
+			$information     = (array) json_decode( stripslashes( $_COOKIE['eventrocket_dup_status'] ) );
+			$this->status    = isset( $information['status'] ) ? (int) $information['status'] : 0;
+			$this->duplicate = isset( $information['event'] )  ? (int) $information['event']  : 0;
 			setcookie( 'eventrocket_dup_status', 0 );
 		}
 	}
@@ -93,7 +99,7 @@ class EventRocket_EventDuplicator
 		$post_meta = get_post_meta( $this->src_post->ID );
 
 		$post_data['post_status'] = apply_filters( 'eventrocket_duplicated_post_status', 'draft' );
-		$post_data['post_title'] = $this->get_duplicate_post_title();
+		$post_data['post_title'] = $this->get_duplicate_post_title( get_post( $this->src_post->ID ) );
 		$post_data = (array) apply_filters( 'eventrocket_duplicated_post_data', $post_data, $this->src_post );
 
 		unset( $post_data['ID'] );
@@ -101,7 +107,7 @@ class EventRocket_EventDuplicator
 		$this->duplicate = wp_insert_post( $post_data );
 
 		if ( ! $this->duplicate  || is_wp_error( $this->duplicate ) ) {
-			$this->status[] = self::POST_CREATION_FAILED;
+			$this->status = self::POST_CREATION_FAILED;
 			return;
 		}
 
@@ -117,7 +123,7 @@ class EventRocket_EventDuplicator
 
 		$this->apply_terms();
 
-		$this->status[] = self::POST_CREATION_SUCCESSFUL;
+		$this->status = self::POST_CREATION_SUCCESSFUL;
 		$this->redirect();
 	}
 
@@ -127,10 +133,10 @@ class EventRocket_EventDuplicator
 		return ( false !== $data ) ? $data : $value;
 	}
 
-	protected function get_duplicate_post_title() {
+	protected function get_duplicate_post_title( $post ) {
 		$default = __( 'Copy of %s', 'eventrocket' );
-		$template = apply_filters( 'eventrocket_duplicated_post_title_template', $default, $this->src_post );
-		return sprintf( $template, $this->src_post->post_title );
+		$template = apply_filters( 'eventrocket_duplicated_post_title_template', $default, $post );
+		return sprintf( $template, $post->post_title );
 	}
 
 	/**
@@ -163,7 +169,7 @@ class EventRocket_EventDuplicator
 	}
 
 	public function notices() {
-		if ( in_array( self::POST_CREATION_SUCCESSFUL, $this->status ) ) {
+		if ( self::POST_CREATION_SUCCESSFUL === $this->status ) {
 			$edit = get_admin_url( null, 'post.php?post=' . $this->duplicate . '&action=edit' );
 			$view = get_permalink( $this->duplicate );
 			echo '<div class="updated"> <p> '
@@ -171,7 +177,7 @@ class EventRocket_EventDuplicator
 				. '</p> </div>';
 		}
 
-		elseif ( in_array( self::POST_CREATION_WARNING, $this->status ) ) {
+		elseif ( self::POST_CREATION_WARNING === $this->status ) {
 			$edit = get_admin_url( null, 'post.php?post=' . $this->duplicate . '&action=edit' );
 			$view = get_permalink( $this->duplicate );
 			echo '<div class="error"> <p>'
@@ -179,7 +185,7 @@ class EventRocket_EventDuplicator
 				. '</p> </div>';
 		}
 
-		elseif ( in_array( self::POST_CREATION_FAILED, $this->status ) ) {
+		elseif ( self::POST_CREATION_FAILED === $this->status ) {
 			echo '<div class="error"> <p>'
 				. __( 'Sorry! The event could not be duplicated. Please try again or speak to your administrator or developer for further assistance.', 'eventrocket' )
 				. '</p> </div>';
@@ -188,7 +194,10 @@ class EventRocket_EventDuplicator
 
 	protected function redirect() {
 		$sendback = remove_query_arg( array(), wp_get_referer() );
-		setcookie( 'eventrocket_dup_status', serialize( $this->status ) );
+		setcookie( 'eventrocket_dup_status', json_encode( array(
+			'status' => (int) $this->status,
+			'event'  => (int) $this->duplicate
+		) ) );
 		exit( wp_safe_redirect( $sendback ) );
 	}
 }
